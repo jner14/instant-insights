@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import mysqlconf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -78,9 +79,11 @@ WSGI_APPLICATION = 'insight.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': 'mysql.cnf'
-        }
+        'NAME': mysqlconf.database,
+        'USER': mysqlconf.user,
+        'PASSWORD': mysqlconf.password,
+        'HOST': mysqlconf.host,
+        'PORT': '3306',
     }
 }
 
