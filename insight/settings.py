@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import mysqlconf
+import conf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,13 +20,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = mysqlconf.secret_key
+SECRET_KEY = conf.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [u'sijane.pythonanywhere.com', "127.0.0.1"]
 
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = conf.EMAIL_HOST_USER
+# EMAIL_HOST_PASSWORD = conf.EMAIL_HOST_PASSWORD
+# EMAIL_PORT = 587
 
 # Application definition
 
@@ -56,7 +61,7 @@ ROOT_URLCONF = 'insight.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +76,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'insight.wsgi.application'
 
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = 'manage_surveys'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -78,10 +85,10 @@ WSGI_APPLICATION = 'insight.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': mysqlconf.database,
-        'USER': mysqlconf.user,
-        'PASSWORD': mysqlconf.password,
-        'HOST': mysqlconf.host,
+        'NAME': conf.database,
+        'USER': conf.user,
+        'PASSWORD': conf.password,
+        'HOST': conf.host,
         'PORT': '3306',
     }
 }
@@ -123,7 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = u'/survey/sijane/insight/media'
+MEDIA_ROOT = u'/home/sijane/insight/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'

@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <h2>Manage Surveys</h2>
+    <table>
+        <tr>
+            <th>Survey ID</th>
+            <th>Date Created</th>
+            <th>Status</th>
+        </tr>
+        {% for survey in surveys %}
+            <tr>
+                <td>{{ survey.pk }}</td>
+                <td>{{ survey.created_date }}</td>
+                {% if survey.closed %}
+                    <td><a href="{% url 'open_survey' survey.pk %}">Closed</a></td>
+                {% else %}
+                    <td><a href="{% url 'close_survey' survey.pk %}">Active</a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

@@ -12,8 +12,12 @@ class Survey(models.Model):
         self.closed = True
         self.save()
 
+    def open(self):
+        self.closed = False
+        self.save()
+
     def __str__(self):
-        return self.name
+        return str(self.id)
 
 
 class SurveyResponse(models.Model):
