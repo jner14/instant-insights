@@ -1,10 +1,13 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Next" />
-    </form>
-    <input type=button value="Back" onClick="javascript:history.go(-1);">
+    <div>
+        <h2>The Innovation Survey</h2><h4> for {{ request.session.company }}</h4>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type=button value="Back" onClick="javascript:history.go(-1);">
+            <input style="float: right;" type="submit" value="Create Survey" />
+        </form>
+    </div>
 {% endblock %}

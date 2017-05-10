@@ -1,24 +1,42 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <h2>Manage Surveys</h2>
-    <table>
-        <tr>
-            <th>Survey ID</th>
-            <th>Date Created</th>
-            <th>Status</th>
-        </tr>
-        {% for survey in surveys %}
+    <h2>Surveys</h2>
+    <div>
+        <table>
             <tr>
-                <td>{{ survey.pk }}</td>
-                <td>{{ survey.created_date }}</td>
-                {% if survey.closed %}
-                    <td><a href="{% url 'open_survey' survey.pk %}">Closed</a></td>
-                {% else %}
-                    <td><a href="{% url 'close_survey' survey.pk %}">Active</a></td>
-                {% endif %}
+                <th>Survey ID</th>
+                <th>Date Created</th>
+                <th>Status</th>
+                <th>Change Status</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for survey in surveys %}
+                <tr>
+                    <td>{{ survey.pk }}</td>
+                    <td>{{ survey.created_date }}</td>
+                    {% if survey.closed %}
+                        <td>CLOSED</td>
+                        <td><a href="{% url 'open_survey' survey.pk %}">Reopen this survey</a></td>
+                    {% else %}
+                        <td>OPEN</td>
+                        <td><a href="{% url 'close_survey' survey.pk %}">Close this survey</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div>
+        <h3>Instructions</h3>
+        <p>
+            When ready, close the survey to new entries using the link under Change Status.  A report will
+            automatically be generated and sent to your email.
+        </p>
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+             <p>Logged in as {{ user.email }}</p>
+             <p><a href="/accounts/logout">Log out</a></p>
+        {% endif %}
+    </div>
 
 {% endblock %}

@@ -27,7 +27,9 @@ def survey_home(request):
 
 @xframe_options_exempt
 def survey_new_user(request):
-    if request.method == 'POST':
+    if 'company' not in request.session.keys():
+        return redirect(survey_home)
+    elif request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
             newUser = form.save(commit=False)
