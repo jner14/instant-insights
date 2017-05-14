@@ -25,7 +25,7 @@ SECRET_KEY = conf.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'sijane.pythonanywhere.com', "127.0.0.1"]
+ALLOWED_HOSTS = [u'jnerdataconsulting.com', u'127.0.0.1', u'survey.innovationiseasy.com']
 
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'conf.EMAIL_HOST'
