@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 
 def survey_home(request):
     if request.user.is_authenticated():
-        return redirect('manage_surveys')
+        return redirect('survey_manage')
     if request.method == 'POST':
         compForm = GetCompanyForm(request.POST)
         if compForm.is_valid():
@@ -42,14 +42,14 @@ def survey_new_user(request):
                                         username=form.cleaned_data['email'],
                                         password=form.cleaned_data['password1']))
             newSurvey = Survey.objects.create(requester=newUser, company=request.session['company'])
-            return redirect('manage_surveys')
+            return redirect(survey_manage)
     else:
         form = NewUserForm()
 
     return render(request, 'main/survey_new_user.html', {'form': form})
 
 
-def manage_surveys(request):
+def survey_manage(request):
     if request.user.is_anonymous():
         return redirect('survey_home')
     return render(request, 'main/survey_manage.html', {'surveys': Survey.objects.filter(requester=request.user)})
@@ -60,7 +60,7 @@ def close_survey(request, pk):
         survey = Survey.objects.filter(requester=request.user, pk=pk)
         if survey.exists():
             survey[0].close()
-        return redirect(manage_surveys)
+        return redirect(survey_manage)
     return redirect(survey_home)
 
 
@@ -69,7 +69,7 @@ def open_survey(request, pk):
         survey = Survey.objects.filter(requester=request.user, pk=pk)
         if survey.exists():
             survey[0].open()
-        return redirect(manage_surveys)
+        return redirect(survey_manage)
     return redirect(survey_home)
 
 

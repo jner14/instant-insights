@@ -79,7 +79,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'insight.wsgi.application'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = 'manage_surveys'
+LOGIN_REDIRECT_URL = 'survey_manage'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -133,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = u'/home/sijane/insight/media'
+# MEDIA_ROOT = u'/home3/jner/instant-insights/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
