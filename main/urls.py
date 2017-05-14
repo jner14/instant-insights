@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^close_survey/(?P<pk>\d+)/$', views.close_survey, name='close_survey'),
     url(r'^open_survey/(?P<pk>\d+)/$', views.open_survey, name='open_survey'),
     url(r'^mail$', views.mail, name='mail'),
-    url(r'^$', TemplateView.as_view(template_name='home.html')),
+    url(r'^$', TemplateView.as_view(template_name='main/home.html')),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]

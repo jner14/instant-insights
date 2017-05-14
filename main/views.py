@@ -9,8 +9,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+#
+# @xframe_options_exempt
+# def login(request):
+#     return
 
-@xframe_options_exempt
+
 def survey_home(request):
     if request.user.is_authenticated():
         return redirect('manage_surveys')
@@ -25,7 +29,6 @@ def survey_home(request):
     return render(request, 'main/survey_home.html', {'compForm': compForm})
 
 
-@xframe_options_exempt
 def survey_new_user(request):
     if 'company' not in request.session.keys():
         return redirect(survey_home)
@@ -46,11 +49,10 @@ def survey_new_user(request):
     return render(request, 'main/survey_new_user.html', {'form': form})
 
 
-@xframe_options_exempt
 def manage_surveys(request):
     if request.user.is_anonymous():
         return redirect('survey_home')
-    return render(request, 'main/manage_surveys.html', {'surveys': Survey.objects.filter(requester=request.user)})
+    return render(request, 'main/survey_manage.html', {'surveys': Survey.objects.filter(requester=request.user)})
 
 
 def close_survey(request, pk):
