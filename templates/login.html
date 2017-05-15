@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     {% if form.errors %}
@@ -17,6 +17,7 @@
     <div>
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
+{#            {{ form.as_p }}#}
             <p>
                 {{ form.username.errors }}
                 <label for="{{ form.username.id_for_label }}">Email:</label>
@@ -28,7 +29,8 @@
                 {{ form.password }}
             </p>
             <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-            <input type="submit" value="login" />
+            <input type=button value="Back" onClick="location.href='{% url 'survey_home' %}';">
+            <input type="submit" style="float: right;" value="Login" />
             <input type="hidden" name="next" value="" />
         </form>
 

@@ -135,5 +135,5 @@ USE_TZ = True
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 # MEDIA_ROOT = u'/home3/jner/instant-insights/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'main/../static')
 STATIC_URL = '/static/'

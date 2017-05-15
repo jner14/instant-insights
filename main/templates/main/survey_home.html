@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <h2>The Innovation Survey</h2>
@@ -6,8 +6,8 @@
         {% csrf_token %}
         {{ compForm.as_p }}
         <p>
-            Already created a survey? <a href="/login/">Log in here</a>
+            Not your first time around? <a href="/login/">Click here to log in</a>
         </p>
-        <input style="float: right;" type="submit" value="Let's Get Started" />
+        <input style="float: right;" type="submit" value="Let's get started!" />
     </form>
 {% endblock %}

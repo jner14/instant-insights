@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <div>
@@ -6,7 +6,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type=button value="Back" onClick="javascript:history.go(-1);">
+            <input type=button value="Back" onClick="location.href='{% url 'survey_home' %}';">
             <input style="float: right;" type="submit" value="Create Survey" />
         </form>
     </div>
