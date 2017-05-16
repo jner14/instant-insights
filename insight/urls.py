@@ -20,8 +20,8 @@ from django.contrib.auth import views as auth_views
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^login/$', views.login, name='login'),
-    url(r'^logout$', views.logout, name='logout'),
+    url(r'^login', views.login, name='login'),
+    url(r'^logout', views.logout, name='logout'),
     url(r'^password_reset/$', auth_views.PasswordResetView.as_view(template_name='password_reset.html',
                                                                    email_template_name='password_reset_email.html',
                                                                    subject_template_name='password_reset_subject.txt',

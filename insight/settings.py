@@ -20,20 +20,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = conf.secret_key
+SECRET_KEY = conf.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [u'jnerdataconsulting.com', u'127.0.0.1', u'survey.innovationiseasy.com']
 
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'conf.EMAIL_HOST'
-# EMAIL_HOST_USER = conf.EMAIL_HOST_USER
-# EMAIL_HOST_PASSWORD = conf.EMAIL_HOST_PASSWORD
-# EMAIL_PORT = 587
-# DEFAULT_FROM_EMAIL = 'noreply@innovationiseasy.com'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+EMAIL_USE_TLS = True
+EMAIL_HOST = conf.EMAIL_HOST
+EMAIL_HOST_USER = conf.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = conf.EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'noreply@innovationiseasy.com'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
 # Application definition
 
@@ -79,6 +79,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'insight.wsgi.application'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_URL = u'/login/'
 LOGIN_REDIRECT_URL = 'survey_manage'
 
 # Database
@@ -87,10 +88,10 @@ LOGIN_REDIRECT_URL = 'survey_manage'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': conf.database,
-        'USER': conf.user,
-        'PASSWORD': conf.password,
-        'HOST': conf.host,
+        'NAME': conf.MYSQL_DATABASE,
+        'USER': conf.MYSQL_USER,
+        'PASSWORD': conf.MYSQL_PASSWORD,
+        'HOST': conf.MYSQL_HOST,
         'PORT': '3306',
         'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
     }
@@ -135,5 +136,6 @@ USE_TZ = True
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 # MEDIA_ROOT = u'/home3/jner/instant-insights/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'main/../static')
+STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 STATIC_URL = '/static/'
+# FORCE_SCRIPT_NAME = "/index.fcgi/"

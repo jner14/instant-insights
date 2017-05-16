@@ -1,6 +1,9 @@
-database = "database"
-user = "user"
-password = "password"
-host = "host"
-secret_key = 'secret_key'
-admin_password = 'admin_password'
+MYSQL_DATABASE 		= "MYSQL_DATABASE"
+MYSQL_USER 			= "MYSQL_USER"
+MYSQL_PASSWORD 		= "MYSQL_PASSWORD"
+MYSQL_HOST 			= "MYSQL_HOST"
+SECRET_KEY 			= 'SECRET_KEY'
+ADMIN_PASSWORD 		= 'ADMIN_PASSWORD'
+EMAIL_HOST 			= 'EMAIL_HOST'
+EMAIL_HOST_USER 	= 'EMAIL_HOST_USER'
+EMAIL_HOST_PASSWORD = 'EMAIL_HOST_PASSWORD'

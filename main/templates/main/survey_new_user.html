@@ -2,12 +2,14 @@
 
 {% block content %}
     <div>
-        <h2>The Innovation Survey</h2><h4> for {{ request.session.company }}</h4>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type=button value="Back" onClick="location.href='{% url 'survey_home' %}';">
-            <input style="float: right;" type="submit" value="Create Survey" />
-        </form>
+        <h3> for {{ request.session.company }}</h3><br>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type=button value="Back" onClick="location.href='{% url 'survey_home' %}';">
+                <input type="submit" value="Create Survey" />
+            </form>
+        </div>
     </div>
 {% endblock %}

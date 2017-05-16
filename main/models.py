@@ -5,7 +5,7 @@ from django.utils import timezone
 class Survey(models.Model):
     requester = models.ForeignKey('auth.User')
     company = models.CharField(max_length=100)
-    created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
 
     def close(self):
