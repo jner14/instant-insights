@@ -12,7 +12,6 @@ urlpatterns = [
     url(r'^survey_manage$', views.survey_manage, name='survey_manage'),
     url(r'^close_survey/(?P<pk>\d+)/$', views.close_survey, name='close_survey'),
     url(r'^open_survey/(?P<pk>\d+)/$', views.open_survey, name='open_survey'),
-    url(r'^mail$', views.mail, name='mail'),
     # url(r'^$', TemplateView.as_view(template_name='insight/home.html')),
 
 ]

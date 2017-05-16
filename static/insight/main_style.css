@@ -16,6 +16,7 @@ ul, ol, li, h1, h2, h4, h5, h6, pre, form, body, html, p, blockquote, fieldset, 
  #header-wrap .container { padding: 0 2em; }
  }
  a { color: #a1a1a1; }
+ a:hover { color: #494949; }
  h2 { font-size: 1.75em; font-weight: 300; color: #2b2b2b; margin: 0 auto .75em; }
  .paragraph, div.paragraph { margin: 0 auto 1.7em; line-height: 1.5; }
  .paragraph, p { margin: 0 auto 1.7em; line-height: 1.5; }
@@ -182,7 +183,7 @@ ul, ol, li, h1, h2, h4, h5, h6, pre, form, body, html, p, blockquote, fieldset, 
 
 input[type=submit]:hover, input[type=button]:hover {
     background-color: #8f9429;
-    font-size: 1.25em;
+    font-size: 1.20em;
 }
  .wsite-com-product-option-label input[type="radio"]:checked ~ span:before, .form-radio-container input[type="radio"]:checked ~ label:before { background-position: 0 -22px; }
  .wsite-com-product-option-label input[type="checkbox"]:checked ~ span:before, .form-radio-container input[type="checkbox"]:checked ~ label:before { background-position: 0 -24px; }
