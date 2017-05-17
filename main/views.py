@@ -65,7 +65,7 @@ def close_survey(request, pk):
         survey = get_object_or_404(Survey, requester=request.user, pk=pk)
         survey.close()
         survey.send_report()
-        return redirect(manage_surveys)
+        return redirect('http://www.innovationiseasy.com/services.html')
     return redirect(login)
 
 

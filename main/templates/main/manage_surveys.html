@@ -15,7 +15,7 @@
             {% for survey, count in surveys %}
                 <tr>
                     <td>{{ survey.pk.urn|slice:"-4:" }}</td>
-                    <td>{{ survey.created_date }}</td>
+                    <td>{{ survey.created_date.date }}</td>
                     <td>{{ count }}</td>
                     {% if survey.closed %}
                         <td>CLOSED</td>
