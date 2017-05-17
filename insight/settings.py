@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'insight.wsgi.application'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_URL = u'/login/'
-LOGIN_REDIRECT_URL = 'manage_survey'
+LOGIN_REDIRECT_URL = 'manage_surveys'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases

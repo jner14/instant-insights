@@ -19,7 +19,7 @@ class SuveyReportMaker():
         self.user_name = user_name
         self.rating = rating
 
-        # plty.sign_in(*api_cred)
+        plty.sign_in(*api_cred)
 
     @staticmethod
     def process_survey_data(survey_data):
@@ -115,11 +115,11 @@ class SuveyReportMaker():
             self._make_plot(overall_data, title, "Overall_" + typ + ".png")
             self._make_plot([man_data, assoc_data], title, "Grouped_" + typ + ".png")
 
-    def write_to_pdf(self, html, ofname="out.pdf", config=None):
+    def write_to_pdf(self, pg, ofname="out.pdf", config=None):
         if config:
-            pdfkit.from_string(pg, "out.pdf", configuration=config)
+            pdfkit.from_string(pg, ofname, configuration=config)
         else:
-            pdfkit.from_string(pg, "out.pdf")
+            pdfkit.from_string(pg, ofname)
 
     def make_html_page(self):
         return """<html>
@@ -185,7 +185,7 @@ if __name__ == '__main__':
         cpin_reader.next()
         sdata = [line for line in cpin_reader]
         # NEED THIS => (plotly.user_name, plotly.api_key
-        api_cred = ("", "")
+        api_cred = ("innovationiseasy", "ZHBgmFenRod0v8WvH4OE")
         srmaker = SuveyReportMaker(sdata, "Crimson Star Software", 9001, api_cred)
         srmaker.make_plots()
         pg = srmaker.make_html_page()

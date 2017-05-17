@@ -4,6 +4,8 @@ from django.utils import timezone
 import uuid
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
+from .survey_maker import SuveyReportMaker
+import pdfkit
 
 
 class Survey(models.Model):
@@ -26,7 +28,14 @@ class Survey(models.Model):
         return self.requester.email_user("Here is your survey link!", content)
 
     def send_report(self):
-        pass
+        responses = [[r.question_1, r.question_2, r.question_3]
+                     for r in SurveyResponse.objects.filter(survey=self.id, submitted=True)]
+        requestorName = "%s %s" % (self.requester.first_name, self.requester.last_name)
+        rating = "placeholder rating"
+        srmaker = SuveyReportMaker(responses, requestorName, rating, ("innovationiseasy", "ZHBgmFenRod0v8WvH4OE"))
+        srmaker.make_plots()
+        pg = srmaker.make_html_page()
+        srmaker.write_to_pdf(pg, config=pdfkit.configuration(wkhtmltopdf="../.local/bin/wkhtmltox/bin/wkhtmltopdf"))
 
     def __str__(self):
         return str(self.id)

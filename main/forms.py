@@ -56,6 +56,6 @@ class Question2Form(forms.Form):
 
 class Question3Form(forms.Form):
     CHOICES = [('a', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_a.jpg' alt='Supported' title='Supported'>" % Site.objects.get_current().domain)),
-               ('b', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_b.jpg' alt='Distanced' title='Distanced'>" % Site.objects.get_current().domain)),
+               ('b', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_b.jpg' alt='Injured' title='Injured'>" % Site.objects.get_current().domain)),
                ('c', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_c.jpg' alt='Booted' title='Booted'>" % Site.objects.get_current().domain))]
     question = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)

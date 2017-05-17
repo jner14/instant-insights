@@ -9,7 +9,7 @@ urlpatterns = [
     # url(r'^', include('django.contrib.auth.urls')),
     url(r'^$', views.survey_home, name='survey_home'),
     url(r'^new_survey_user', views.new_survey_user, name='new_survey_user'),
-    url(r'^manage_survey$', views.manage_survey, name='manage_survey'),
+    url(r'^manage_surveys$', views.manage_surveys, name='manage_surveys'),
     url(r'^close_survey/(?P<pk>[a-f0-9-]+)/$', views.close_survey, name='close_survey'),
     url(r'^open_survey/(?P<pk>[a-f0-9-]+)/$', views.open_survey, name='open_survey'),
     url(r'^get_link/(?P<pk>[a-f0-9-]+)/$', views.get_link, name='get_link'),
