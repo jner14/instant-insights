@@ -2,6 +2,9 @@ from django import forms
 from .models import Survey, SurveyResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.utils.safestring import mark_safe
+from django.contrib.sites.models import Site
 
 
 class GetCompanyForm(forms.Form):
@@ -32,14 +35,27 @@ class NewUserForm(UserCreationForm):
         return self.cleaned_data["last_name"]
 
 
-class ResponseForm(forms.ModelForm):
-
-    class Meta:
-        model = SurveyResponse
-        fields = ('question_1', 'question_2', 'question_3', 'question_4', 'question_5')
-
-
 class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100)
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()
+
+
+class Question1Form(forms.Form):
+    CHOICES = [('MGR', 'Yes'), ('ASSOC', 'No')]
+    question = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+
+
+class Question2Form(forms.Form):
+    CHOICES = [('a', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/risk_a.jpg' alt='High Risk' title='High Risk'>" % Site.objects.get_current().domain)),
+               ('b', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/risk_b.jpg' alt='Medium Risk' title='Medium Risk'>" % Site.objects.get_current().domain)),
+               ('c', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/risk_c.jpg' alt='Low Risk' title='Low Risk'>" % Site.objects.get_current().domain)),
+               ('d', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/risk_d.jpg' alt='No Risk' title='No Risk'>" % Site.objects.get_current().domain))]
+    question = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+
+
+class Question3Form(forms.Form):
+    CHOICES = [('a', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_a.jpg' alt='Supported' title='Supported'>" % Site.objects.get_current().domain)),
+               ('b', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_b.jpg' alt='Distanced' title='Distanced'>" % Site.objects.get_current().domain)),
+               ('c', mark_safe("<img class='radioicons' src='http://%s/static/insight/img/support_c.jpg' alt='Booted' title='Booted'>" % Site.objects.get_current().domain))]
+    question = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)

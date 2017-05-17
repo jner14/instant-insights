@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Question 1</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>You are a manager that has people in your company that work for and report to you.</p>
+        {{ form.question }}
+        <input type="submit" value="Next" />
+    </form>
+{% endblock %}

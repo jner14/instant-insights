@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Question 3</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            In the first question you were asked to indicate the level of risk you would be likely to take.
+            Now we want to know what you think would happen if the risk doesn't pay off. There are three images below.
+            Choose the image that best represents what you think would happen if you jumped from one mountain top and
+            didn't make it to the other.
+        </p>
+        {{ form.question }}
+        <input type="submit" value="Finish!" />
+    </form>
+{% endblock %}

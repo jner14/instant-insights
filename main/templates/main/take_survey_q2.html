@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Question 2</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            Imagine there is an opportunity to do something at your company that involves a certain amount of risk.
+            Think of this as jumping from one mountain top to another. There are four images below.
+            The wider the gap between the mountains, the more risk is involved. Click on the image that best
+            represents how much risk you would be willing to take.
+        </p>
+        {{ form.question }}
+        <input type="submit" value="Next" />
+    </form>
+{% endblock %}

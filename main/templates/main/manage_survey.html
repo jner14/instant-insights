@@ -7,13 +7,16 @@
             <tr>
                 <th>Survey ID</th>
                 <th>Date Created</th>
+                <th>Responses</th>
                 <th>Status</th>
                 <th>Change Status</th>
+                <th>Link</th>
             </tr>
-            {% for survey in surveys %}
+            {% for survey, count in surveys %}
                 <tr>
-                    <td>{{ survey.pk }}</td>
+                    <td>{{ survey.pk.urn|slice:"-4:" }}</td>
                     <td>{{ survey.created_date }}</td>
+                    <td>{{ count }}</td>
                     {% if survey.closed %}
                         <td>CLOSED</td>
                         <td><a href="{% url 'open_survey' survey.pk %}">Reopen this survey</a></td>
@@ -21,16 +24,21 @@
                         <td>OPEN</td>
                         <td><a href="{% url 'close_survey' survey.pk %}">Close this survey</a></td>
                     {% endif %}
+                    <td><a href="{% url 'get_link' survey.pk %}">Resend link</a></td>
                 </tr>
             {% endfor %}
         </table>
     </div>
     <div>
         <h3>Instructions</h3>
-        <p>
-            When ready, close the survey by clicking the link under Change Status.  A report will
-            automatically be generated and sent to the email on your account.
-        </p>
+        <ol>
+            <li>Check your email inbox for a message from us with a link to your survey.</li>
+            <li>Forward the link to everyone in your organization.</li>
+            <li>Check back here to see the number of responses.</li>
+            <li>When ready, close the survey by clicking the link under Change Status.  A report will
+            automatically be generated and emailed to you.</li>
+        </ol>
+
     </div>
     <div>
         {% if user.is_authenticated %}

@@ -180,10 +180,15 @@ ul, ol, li, h1, h2, h4, h5, h6, pre, form, body, html, p, blockquote, fieldset, 
     cursor: pointer;
     font-size: 1.15em;
 }
-
 input[type=submit]:hover, input[type=button]:hover {
     background-color: #8f9429;
     font-size: 1.20em;
+}
+.radioicons {
+    height: 75px;
+}
+li {
+    padding-bottom: .75em;
 }
  .wsite-com-product-option-label input[type="radio"]:checked ~ span:before, .form-radio-container input[type="radio"]:checked ~ label:before { background-position: 0 -22px; }
  .wsite-com-product-option-label input[type="checkbox"]:checked ~ span:before, .form-radio-container input[type="checkbox"]:checked ~ label:before { background-position: 0 -24px; }

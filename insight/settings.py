@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'main',
 ]
 
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'insight.wsgi.application'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_URL = u'/login/'
-LOGIN_REDIRECT_URL = 'survey_manage'
+LOGIN_REDIRECT_URL = 'manage_survey'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -137,6 +138,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'Debug.log'),
+            'formatter': 'verbose',
             # 'maxBytes': 1024 * 1024 * 15,  # 15MB
             # 'backupCount': 2,
         },
@@ -189,3 +191,4 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 STATIC_URL = '/static/'
 # FORCE_SCRIPT_NAME = "/index.fcgi/"
+SITE_ID = 1
