@@ -30,19 +30,24 @@
         </table>
     </div>
     <div>
-        <h3>Instructions</h3>
-        <ol>
-            <li>Check your email inbox for a message from us with a link to your survey.</li>
-            <li>Forward the link to everyone in your organization.</li>
-            <li>Check back here to see the number of responses.</li>
-            <li>When ready, close the survey by clicking the link under Change Status.  A report will
-            automatically be generated and emailed to you.</li>
-        </ol>
-
+        <p>
+            <h3>Instructions</h3>
+            <ol>
+                <li>Check your email inbox for a message from us with a link to your survey.</li>
+                <li>Forward the link to everyone in your organization.</li>
+                <li>Check back here to see the number of responses.</li>
+                <li>
+                    When ready, close the survey by clicking the link under Change Status.  A report will
+                    automatically be generated and emailed to you. Please allow 10-15 minutes for your report
+                    to be generated.
+                </li>
+                <li>Contact us at survey@innovationiseasy.com with any questions.</li>
+            </ol>
+        </p>
     </div>
     <div>
         {% if user.is_authenticated %}
-             <p>Logged in as {{ user.email }}</p>
+             <p>You're logged in as {{ user.email }}</p>
              <p><a href="/logout">Log out</a></p>
         {% endif %}
     </div>

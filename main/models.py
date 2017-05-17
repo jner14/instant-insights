@@ -2,10 +2,14 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 import uuid
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.utils.html import strip_tags
 from .survey_maker import SuveyReportMaker
 import pdfkit
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Survey(models.Model):
@@ -32,10 +36,23 @@ class Survey(models.Model):
                      for r in SurveyResponse.objects.filter(survey=self.id, submitted=True)]
         requestorName = "%s %s" % (self.requester.first_name, self.requester.last_name)
         rating = "placeholder rating"
+        # i = 0
+        # while i < 5:
+        #     try:
         srmaker = SuveyReportMaker(responses, requestorName, rating, ("innovationiseasy", "ZHBgmFenRod0v8WvH4OE"))
         srmaker.make_plots()
         pg = srmaker.make_html_page()
         srmaker.write_to_pdf(pg, config=pdfkit.configuration(wkhtmltopdf="../.local/bin/wkhtmltox/bin/wkhtmltopdf"))
+        content = render_to_string('main/email_report_body.html')
+        message = EmailMessage(subject ="I3 Assessment Report - The Innovation Company",
+                               body = content,
+                               to = (self.requester.email,))
+        message.attach_file('out.pdf', 'application/pdf')
+        message.send()
+            #     break
+            # except Exception as e:
+            #     logger.error("Failed to create and send report: %s" % e)
+            #     i += 1
 
     def __str__(self):
         return str(self.id)
