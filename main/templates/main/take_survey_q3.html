@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Question 3{% endblock %}
+
 {% block content %}
     <h2>Question 3</h2>
     <form method="POST">
@@ -11,6 +13,6 @@
             didn't make it to the other.
         </p>
         {{ form.question }}
-        <input type="submit" value="Finish!" />
+        <input type="submit" value="Submit Answers" />
     </form>
 {% endblock %}

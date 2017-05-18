@@ -4,12 +4,13 @@ from django.utils import timezone
 import uuid
 from django.core.mail import send_mail, EmailMessage
 from django.utils.html import strip_tags
-from .survey_maker import SuveyReportMaker
+from .survey_maker import SurveyReportMaker
 import pdfkit
 import logging
+import os
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class Survey(models.Model):
@@ -32,23 +33,31 @@ class Survey(models.Model):
         return self.requester.email_user("Here is your survey link!", content)
 
     def send_report(self):
+        reportName = 'I3 Assessment Report - %s.pdf' % self.company
         responses = [[r.question_1, r.question_2, r.question_3]
                      for r in SurveyResponse.objects.filter(survey=self.id, submitted=True)]
-        requestorName = "%s %s" % (self.requester.first_name, self.requester.last_name)
+        requesterName = "%s %s" % (self.requester.first_name, self.requester.last_name)
         rating = "placeholder rating"
         # i = 0
         # while i < 5:
         #     try:
-        srmaker = SuveyReportMaker(responses, requestorName, rating, ("innovationiseasy", "ZHBgmFenRod0v8WvH4OE"))
-        srmaker.make_plots()
-        pg = srmaker.make_html_page()
-        srmaker.write_to_pdf(pg, config=pdfkit.configuration(wkhtmltopdf="../.local/bin/wkhtmltox/bin/wkhtmltopdf"))
-        content = render_to_string('main/email_report_body.html')
-        message = EmailMessage(subject ="I3 Assessment Report - The Innovation Company",
+        srMaker = SurveyReportMaker(responses, requesterName, rating)
+        srMaker.make_plots()
+        htmlReport = srMaker.make_html_page(os.path.join(os.getcwd(), "static/insight/img/innovation_company_logo.png"))
+        pdf = srMaker.write_to_pdf(htmlReport,
+                                   # config=pdfkit.configuration(wkhtmltopdf="C:/Program Files/bin/wkhtmltopdf/bin/wkhtmltopdf.exe"))
+                                   config=pdfkit.configuration(wkhtmltopdf="../.local/bin/wkhtmltox/bin/wkhtmltopdf"))
+        content = render_to_string('main/email_report_body.html', {'name': self.requester.first_name})
+        message = EmailMessage(subject ="Your I3 Assessment Report - The Innovation Company",
                                body = content,
                                to = (self.requester.email,))
-        message.attach_file('out.pdf', 'application/pdf')
+        message.attach(reportName, pdf, 'application/pdf')
         message.send()
+        message.subject = 'A report has been emailed to {} {}'.format(self.requester.first_name, self.requester.last_name)
+        message.to = ['survey@innovationiseasy.com']
+        message.from_email = 'no_reply@innovationiseasy.com'
+        message.send()
+
             #     break
             # except Exception as e:
             #     logger.error("Failed to create and send report: %s" % e)

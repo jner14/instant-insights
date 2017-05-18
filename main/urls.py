@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^take_survey/(?P<survey_pk>[a-f0-9-]+)/(?P<response_pk>[a-f0-9-]+)/(?P<q_num>\d+)/$', views.take_survey,
         name='take_survey'),
     url(r'^submission_received$', views.submission_received, name='submission_received'),
-    url(r'^survey_is_closed', views.survey_is_closed, name='survey_is_closed'),
+    url(r'^survey_is_closed$', views.survey_is_closed, name='survey_is_closed'),
+    url(r'^report_sent$', views.report_sent, name='report_sent'),
     # url(r'^$', TemplateView.as_view(template_name='insight/home.html')),
 ]

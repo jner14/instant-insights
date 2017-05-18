@@ -37,7 +37,7 @@ def new_survey_user(request):
                                              password=form.cleaned_data['password1']))
             # Create new survey and send email with links
             newSurvey = Survey.objects.create(requester=newUser, company=request.session['company'])
-            newSurvey.send_link()
+            newSurvey.send_link(request.get_host())
             return redirect(manage_surveys)
     else:
         form = NewUserForm()
@@ -63,10 +63,15 @@ def get_link(request, pk):
 def close_survey(request, pk):
     if request.user.is_authenticated():
         survey = get_object_or_404(Survey, requester=request.user, pk=pk)
-        survey.close()
-        survey.send_report()
-        return redirect('http://www.innovationiseasy.com/services.html')
+        if not survey.closed:
+            survey.close()
+            survey.send_report()
+        return redirect(report_sent)
     return redirect(login)
+
+
+def report_sent(request):
+    return render(request, 'main/report_sent.html', {})
 
 
 def open_survey(request, pk):

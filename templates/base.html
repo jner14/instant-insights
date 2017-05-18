@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>I3&trade; Assessement</title><meta property="og:site_name" content="" />
+		<title>I3&trade; Assessement - {% block title %}{% endblock %}</title><meta property="og:site_name" content="" />
 <meta property="og:title" content="survey" />
 <meta property="og:description" content="Copyright © 2017 The Innovation Company, LLC   POP! Culture and PRE-NOTE are registered trademarks of The Innovation Company, LLC" />
 <meta property="og:image" content="http://www.innovationiseasy.com/uploads/6/3/4/0/63404521/7985450.jpg" />
@@ -442,7 +442,7 @@ var STYLE_PREFIX = 'wsite';
                         <div>
                             <div id="993247540528627043" align="left" style="padding-left: 15%; padding-right: 15%; width: 70%; overflow-y: hidden;" class="wcustomhtml">
 
-                                <h2><a href="{% url 'survey_home' %}">The I3&trade; Assessment</a></h2>
+                                <h1><a href="{% url 'survey_home' %}">The I3&trade; Assessment</a></h1>
                                 {% block content %}
                                 {% endblock %}
 
