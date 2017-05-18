@@ -209,6 +209,10 @@ th {
 h1 {
     padding-bottom: 1em;
 }
+ul.errorlist {
+    color: #bc0002;
+    font-weight: bold;
+}
  .wsite-com-product-option-label input[type="radio"]:checked ~ span:before, .form-radio-container input[type="radio"]:checked ~ label:before { background-position: 0 -22px; }
  .wsite-com-product-option-label input[type="checkbox"]:checked ~ span:before, .form-radio-container input[type="checkbox"]:checked ~ label:before { background-position: 0 -24px; }
  .wsite-button, .wsite-editor .wsite-button { display: inline-block; padding: 0; color: #a1a1a1 !important; font-size: .9em !important; background: #fff; background-image: none !important; border: 2px solid #a1a1a1; border-radius: 6px; text-transform: uppercase; transition: background-color 0.65s ease, border 0.65s ease; }

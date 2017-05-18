@@ -9,6 +9,10 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <p>
+                    If you already have an account, <a href="{% url 'login' %}">click here to log in</a> or
+                        <a href="{% url 'password_reset' %}">click here to reset your password</a>.
+                </p>
                 <input type=button value="Back" onClick="location.href='{% url 'survey_home' %}';">
                 <input type="submit" value="Create Survey" />
             </form>

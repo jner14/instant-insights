@@ -132,7 +132,7 @@ class SurveyReportMaker():
                 dict of str => int): This is the combination of the
             "Risk" and "Failure" counts of managers and associates.
         """
-        overall = vals[0]
+        overall = vals[0].copy()
         for typ in vals[0].keys():
             overall[typ] = {
                 k: overall[typ][k] + vals[1][typ][k] for k in vals[1][typ]
@@ -161,10 +161,22 @@ class SurveyReportMaker():
                                       showarrow=False,
                                   ) for xi, yi in zip(data[1].x, data[1].y)]
                                   ) for j in i]
-            layout = gobj.Layout(barmode='group', title=title,
+            layout = gobj.Layout(barmode='group',
+                                 title=title,
                                  legend=dict(orientation="h"),
                                  margin=gobj.Margin(l=50, r=50, b=10, t=10, pad=2),
-                                 annotations=ann, width=300, height=240)
+                                 annotations=ann,
+                                 width=300,
+                                 height=240,
+                                 yaxis=dict(
+                                     autorange=True,
+                                     showgrid=False,
+                                     zeroline=False,
+                                     showline=False,
+                                     autotick=True,
+                                     ticks='',
+                                     showticklabels=False
+                                 ))
         else:
             ann = [
                 dict(
@@ -176,12 +188,26 @@ class SurveyReportMaker():
                     showarrow=False,
                 ) for xi, yi in zip(data[0].x, data[0].y)
                 ]
-            layout = gobj.Layout(title=title, annotations=ann,
+            layout = gobj.Layout(title=title,
+                                 annotations=ann,
                                  legend=dict(orientation="h"),
                                  margin=gobj.Margin(l=50, r=50, b=25, t=25, pad=2),
-                                 width=300, height=240)
+                                 width=300,
+                                 height=240,
+                                 yaxis=dict(
+                                     autorange=True,
+                                     showgrid=False,
+                                     zeroline=False,
+                                     showline=False,
+                                     autotick=True,
+                                     ticks='',
+                                     showticklabels=False
+                                 ))
         fig = gobj.Figure(data=data, layout=layout)
         setattr(self, fname, tempfile.NamedTemporaryFile(mode='wb', suffix='.png'))
+        # Close file if on windows otherwise access denied error
+        if __name__ == "__main__":
+            getattr(self, fname).close()
         plty.image.save_as(fig, filename=getattr(self, fname).name)
 
     def make_plots(self):
@@ -193,23 +219,28 @@ class SurveyReportMaker():
         typs = overall.keys()
 
         for typ in typs:
+            if typ == 'Failure':
+                keys = ['Supported', 'Injured', 'Booted']
+            else:
+                keys = ['High', 'Medium', 'Low', 'No']
+
             overall_data = [gobj.Bar(
                 marker=dict(color='rgb(165, 209, 121)'),
-                x=[k for k in overall[typ].keys()],
-                y=[v for v in overall[typ].values()],
+                x=keys,
+                y=[overall[typ][k] for k in keys],
                 width=.5
             )]
             man_data = gobj.Bar(
                 marker=dict(color='rgb(103, 149, 235)'),
-                x=[k for k in self.survey_data['Managers'][typ].keys()],
-                y=[v for v in self.survey_data['Managers'][typ].values()],
+                x=keys,
+                y=[self.survey_data['Managers'][typ][k] for k in keys],
                 name="Managers",
                 width=.5
             )
             assoc_data = gobj.Bar(
                 marker=dict(color='rgb(198, 105, 105)'),
-                x=[k for k in self.survey_data['Associates'][typ].keys()],
-                y=[v for v in self.survey_data['Associates'][typ].values()],
+                x=keys,
+                y=[self.survey_data['Associates'][typ][k] for k in keys],
                 name="Associates",
                 width=.5
             )
@@ -367,9 +398,13 @@ if __name__ == '__main__':
         cPinReader = csv.reader(cpin, delimiter=',')
         cPinReader.next()
         sData = [line for line in cPinReader]
-        apiCred = (conf.plotlyusername, conf.plotlyapikey)
+        sData = [['MGR', 'a', 'a'], ['MGR', 'b', 'b'], ['ASSOC', 'c', 'c'], ]
+        apiCred = ('innovationiseasy', 'ZHBgmFenRod0v8WvH4OE')
         srMaker = SurveyReportMaker(sData, "Crimson Star Software", "WARM TO COLD", apiCred)
         srMaker.make_plots()
         pg = srMaker.make_html_page(os.path.join(os.getcwd(), "innovation_company_logo.png"))
-        # config = pdfkit.configuration(wkhtmltopdf=conf.path_to_wkhtmltopdf)
-        srMaker.write_to_pdf(pg)  # , config=config)
+        config = pdfkit.configuration(wkhtmltopdf="C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")
+        srMaker.write_to_pdf(pg, config=config, ofname="testReport.pdf")
+        # pdfkit.from_string("Hello World", "testReport.pdf", configuration=config)
+
+        print("Finished")

@@ -5,9 +5,10 @@
 {% block content %}
     <form method="POST">
         {% csrf_token %}
-        {{ compForm.as_p }}
+        Team Name:
+        {{ compForm.company }}
         <p>
-            Not your first time around? <a href="/login/">Click here to log in</a>
+            Not your first time around? <a href="{% url 'login' %}">Click here to log in</a>
         </p>
         <input type="submit" value="Let's get started!" />
     </form>

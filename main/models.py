@@ -8,6 +8,7 @@ from .survey_maker import SurveyReportMaker
 import pdfkit
 import logging
 import os
+from .score_innovation import get_rating
 
 
 logger = logging.getLogger('django')
@@ -37,7 +38,7 @@ class Survey(models.Model):
         responses = [[r.question_1, r.question_2, r.question_3]
                      for r in SurveyResponse.objects.filter(survey=self.id, submitted=True)]
         requesterName = "%s %s" % (self.requester.first_name, self.requester.last_name)
-        rating = "placeholder rating"
+        rating, score = get_rating(responses)
         # i = 0
         # while i < 5:
         #     try:
@@ -45,7 +46,6 @@ class Survey(models.Model):
         srMaker.make_plots()
         htmlReport = srMaker.make_html_page(os.path.join(os.getcwd(), "static/insight/img/innovation_company_logo.png"))
         pdf = srMaker.write_to_pdf(htmlReport,
-                                   # config=pdfkit.configuration(wkhtmltopdf="C:/Program Files/bin/wkhtmltopdf/bin/wkhtmltopdf.exe"))
                                    config=pdfkit.configuration(wkhtmltopdf="../.local/bin/wkhtmltox/bin/wkhtmltopdf"))
         content = render_to_string('main/email_report_body.html', {'name': self.requester.first_name})
         message = EmailMessage(subject ="Your I3 Assessment Report - The Innovation Company",
