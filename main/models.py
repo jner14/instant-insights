@@ -17,7 +17,7 @@ logger = logging.getLogger('django')
 class Survey(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     requester = models.ForeignKey('auth.User')
-    company = models.CharField(max_length=100)
+    group_name = models.CharField(max_length=100)
     created_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
 
@@ -34,7 +34,7 @@ class Survey(models.Model):
         return self.requester.email_user("Here is your survey link!", content)
 
     def send_report(self):
-        reportName = 'I3 Assessment Report - %s.pdf' % self.company
+        reportName = 'I3 Assessment Report - %s.pdf' % self.group_name
         responses = [[r.question_1, r.question_2, r.question_3]
                      for r in SurveyResponse.objects.filter(survey=self.id, submitted=True)]
         requesterName = "%s %s" % (self.requester.first_name, self.requester.last_name)

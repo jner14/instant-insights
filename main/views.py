@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
+
 from .forms import ContactForm, GetCompanyForm, NewUserForm, Question1Form, Question2Form, Question3Form
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from .models import Survey, SurveyResponse
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 import logging
+from django.core.mail import send_mail, EmailMessage
 
 
 logger = logging.getLogger(__name__)
@@ -15,7 +18,7 @@ def survey_home(request):
     if request.method == 'POST':
         compForm = GetCompanyForm(request.POST)
         if compForm.is_valid():
-            request.session['company'] = compForm.cleaned_data['company']
+            request.session['company'] = compForm.cleaned_data["team_or_company"]
             return redirect(new_survey_user)
     else:
         compForm = GetCompanyForm()
@@ -23,8 +26,8 @@ def survey_home(request):
 
 
 def new_survey_user(request):
-    if 'company' not in request.session.keys():
-        return redirect(survey_home)
+    if request.user.is_authenticated():
+        return redirect(manage_surveys)
     elif request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -36,8 +39,15 @@ def new_survey_user(request):
                                              username=form.cleaned_data['email'],
                                              password=form.cleaned_data['password1']))
             # Create new survey and send email with links
-            newSurvey = Survey.objects.create(requester=newUser, company=request.session['company'])
+            newSurvey = Survey.objects.create(requester=newUser, group_name=form.cleaned_data["team_or_company"])
             newSurvey.send_link(request.get_host())
+            send_mail(subject="A new user has signed up! - {} {}".format(newUser.first_name, newUser.last_name),
+                      message=render_to_string('main/notify_newuser_email.html',
+                                               {'email': newUser.email,
+                                                'name': newUser.first_name + " " + newUser.last_name,
+                                                'team': newSurvey.group_name}),
+                      from_email='survey@innovationiseasy.com',
+                      recipient_list=['survey@innovationiseasy.com'])
             return redirect(manage_surveys)
     else:
         form = NewUserForm()

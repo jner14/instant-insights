@@ -13,10 +13,11 @@ class GetCompanyForm(forms.Form):
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    team_or_company = forms.CharField(max_length=100, required=False)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ("team_or_company", 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data['email']

@@ -3,7 +3,7 @@
 {% block title %}Manage Surveys{% endblock %}
 
 {% block content %}
-    <h3>Surveys</h3>
+    <h3>Survey Details</h3>
     <div>
         <table>
             <tr>
@@ -50,7 +50,7 @@
     <div>
         {% if user.is_authenticated %}
              <p>You're logged in as {{ user.email }}</p>
-             <p><a href="/logout">Log out</a></p>
+             <p><a href="{% url 'logout' %}">Log out</a></p>
         {% endif %}
     </div>
 
