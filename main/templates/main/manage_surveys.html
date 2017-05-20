@@ -3,11 +3,17 @@
 {% block title %}Manage Surveys{% endblock %}
 
 {% block content %}
+    <div>
+        {% if user.is_authenticated %}
+             <p>You're logged in as {{ user.email }}</p>
+             <p><a href="{% url 'logout' %}">Click here to log out</a></p>
+        {% endif %}
+    </div>
     <h3>Survey Details</h3>
     <div>
         <table>
             <tr>
-                <th>Survey ID</th>
+                <th>Survey Name</th>
                 <th>Date Created</th>
                 <th>Responses</th>
                 <th>Status</th>
@@ -16,7 +22,7 @@
             </tr>
             {% for survey, count in surveys %}
                 <tr>
-                    <td>{{ survey.pk.urn|slice:"-4:" }}</td>
+                    <td>{{ survey.survey_name }}</td>
                     <td>{{ survey.created_date.date }}</td>
                     <td>{{ count }}</td>
                     {% if survey.closed %}
@@ -26,32 +32,36 @@
                         <td>OPEN</td>
                         <td><a href="{% url 'close_survey' survey.pk %}">Close this survey</a></td>
                     {% endif %}
-                    <td><a href="{% url 'get_link' survey.pk %}">Resend link</a></td>
+                    <td><a href="{% url 'get_link' survey.pk %}">Resend link to me</a></td>
                 </tr>
             {% endfor %}
         </table>
     </div>
     <div>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="{{ AddSurveyForm.survey_name.id_for_label }}">Survey name:</label>
+        {{ AddSurveyForm.survey_name }}
+        <input type="submit" value="Add New Survey" />
+    </form>
+
+    </div>
+    <div>
         <p>
             <h3>Instructions</h3>
             <ol>
-                <li>Check your email inbox for a message from us with a link to your survey.</li>
-                <li>Forward the link to everyone in your organization.</li>
-                <li>Check back here to see the number of responses.</li>
+                <li>Check your email inbox for a message from us with a link to your survey.  The email will come from survey@innovationiseasy.com.</li>
+                <li>Forward the link to the people you would like to have complete the survey.</li>
+                <li>Check back here to see the number of responses or log in at survey.innovationiseasy.com{% url 'login' %}.</li>
                 <li>
                     When ready, close the survey by clicking the link under Change Status.  A report will
                     automatically be generated and emailed to you. Please allow 10-15 minutes for your report
                     to be generated.
                 </li>
+                <li>Add additional surveys as needed.</li>
                 <li>Contact us at survey@innovationiseasy.com with any questions.</li>
             </ol>
         </p>
-    </div>
-    <div>
-        {% if user.is_authenticated %}
-             <p>You're logged in as {{ user.email }}</p>
-             <p><a href="{% url 'logout' %}">Log out</a></p>
-        {% endif %}
     </div>
 
 {% endblock %}

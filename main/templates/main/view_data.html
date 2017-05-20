@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin - View Data{% endblock %}
+
+{% block headers %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" language="javascript" src="{% static 'insight/js/jszip.min.js' %}"></script>
+    <script type="text/javascript" class="init">
+        $(document).ready(function() {$('table.display').DataTable({dom: 'Bfrtlip', buttons: ['copy', 'excel']});});
+    </script>
+{% endblock %}
+
+{% block content2 %}
+
+    <div style="padding-right: 0; padding-left: 0;">
+        <h2>View Data</h2>
+        <div style="padding-bottom: 1em;">
+            <h3>Users</h3>
+            <table id="" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Last Login</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Last Login</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.pk }}</td>
+                            <td>{{ user.last_login }}</td>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.date_joined }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="padding-bottom: 1em;">
+            <h3>Surveys</h3>
+            <table id="" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Survey ID</th>
+                        <th>Survey Name</th>
+                        <th>Responses</th>
+                        <th>Survey Status</th>
+                        <th>Team/Company</th>
+                        <th>Created Date</th>
+                        <th>Requester ID</th>
+                        <th>Requester</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Survey ID</th>
+                        <th>Survey Name</th>
+                        <th>Responses</th>
+                        <th>Survey Status</th>
+                        <th>Team/Company</th>
+                        <th>Created Date</th>
+                        <th>Requester ID</th>
+                        <th>Requester</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for survey, count in surveys %}
+                        <tr>
+                            <td>...{{ survey.pk.urn|slice:"-12:" }}</td>
+                            <td>{{ survey.survey_name }}</td>
+                            <td>{{ count }}</td>
+                            <td>{% if survey.closed %}CLOSED{% else %}OPEN{% endif %}</td>
+                            <td>{{ survey.group_name }}</td>
+                            <td>{{ survey.created_date }}</td>
+                            <td>{{ survey.requester_id }}</td>
+                            <td>{{ survey.requester.first_name }} {{ survey.requester.last_name }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="padding-bottom: 1em;">
+            <h3>Survey Responses</h3>
+            <table id="" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Response ID</th>
+                        <th>Survey ID</th>
+                        <th>Survey Name</th>
+                        <th>Team/Company</th>
+                        <th>Question 1</th>
+                        <th>Question 2</th>
+                        <th>Question 3</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Response ID</th>
+                        <th>Survey ID</th>
+                        <th>Survey Name</th>
+                        <th>Team/Company</th>
+                        <th>Question 1</th>
+                        <th>Question 2</th>
+                        <th>Question 3</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for response in responses %}
+                        <tr>
+                            <td>...{{ response.pk.urn|slice:"-12:" }}</td>
+                            <td>...{{ response.survey.pk.urn|slice:"-12:" }}</td>
+                            <td>{{ response.survey.survey_name }}</td>
+                            <td>{{ response.survey.group_name }}</td>
+                            <td>{{ response.question_1 }}</td>
+                            <td>{{ response.question_2 }}</td>
+                            <td>{{ response.question_3 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

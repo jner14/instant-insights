@@ -14,10 +14,11 @@ class GetCompanyForm(forms.Form):
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     team_or_company = forms.CharField(max_length=100, required=False)
+    survey_name = forms.CharField(max_length=100, required=False)
 
     class Meta:
         model = User
-        fields = ("team_or_company", 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('survey_name', "team_or_company", 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -34,6 +35,14 @@ class NewUserForm(UserCreationForm):
         if self.cleaned_data["last_name"].strip() == '':
             raise forms.ValidationError("Last name is required.")
         return self.cleaned_data["last_name"]
+
+
+class AddSurveyForm(forms.Form):
+    survey_name = forms.CharField(max_length=100, required=False)
+
+    class Meta:
+        model = Survey
+        fields = ('survey_name',)
 
 
 class ContactForm(forms.Form):

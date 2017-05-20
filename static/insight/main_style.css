@@ -195,11 +195,11 @@ table {
 }
 th, td {
     padding: .5em;
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
 }
-td {
-    text-align: center ;
-}
+/*td {*/
+    /*text-align: center ;*/
+/*}*/
 th {
     color: white;
     background-color: #aaaf33;

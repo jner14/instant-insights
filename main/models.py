@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -17,6 +18,7 @@ logger = logging.getLogger('django')
 class Survey(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     requester = models.ForeignKey('auth.User')
+    survey_name = models.CharField(max_length=100, default="NA")
     group_name = models.CharField(max_length=100)
     created_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
@@ -31,7 +33,7 @@ class Survey(models.Model):
 
     def send_link(self, domain):
         content = render_to_string('main/email_survey_link.html', {'survey_pk': self.pk, 'domain': domain})
-        return self.requester.email_user("Here is your survey link!", content)
+        return self.requester.email_user("Here is your survey link from The Innovation Company", content)
 
     def send_report(self):
         reportName = 'I3 Assessment Report - %s.pdf' % self.group_name
@@ -39,16 +41,14 @@ class Survey(models.Model):
                      for r in SurveyResponse.objects.filter(survey=self.id, submitted=True)]
         requesterName = "%s %s" % (self.requester.first_name, self.requester.last_name)
         rating, score = get_rating(responses)
-        # i = 0
-        # while i < 5:
-        #     try:
+
         srMaker = SurveyReportMaker(responses, requesterName, rating)
         srMaker.make_plots()
         htmlReport = srMaker.make_html_page(os.path.join(os.getcwd(), "static/insight/img/innovation_company_logo.png"))
         pdf = srMaker.write_to_pdf(htmlReport,
                                    config=pdfkit.configuration(wkhtmltopdf="../.local/bin/wkhtmltox/bin/wkhtmltopdf"))
         content = render_to_string('main/email_report_body.html', {'name': self.requester.first_name})
-        message = EmailMessage(subject ="Your I3 Assessment Report - The Innovation Company",
+        message = EmailMessage(subject ="Your I3™ Assessment Report from The Innovation Company",
                                body = content,
                                to = (self.requester.email,))
         message.attach(reportName, pdf, 'application/pdf')
@@ -57,11 +57,6 @@ class Survey(models.Model):
         message.to = ['survey@innovationiseasy.com']
         message.from_email = 'no_reply@innovationiseasy.com'
         message.send()
-
-            #     break
-            # except Exception as e:
-            #     logger.error("Failed to create and send report: %s" % e)
-            #     i += 1
 
     def __str__(self):
         return str(self.id)

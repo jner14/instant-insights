@@ -1,10 +1,11 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 
-from .forms import ContactForm, GetCompanyForm, NewUserForm, Question1Form, Question2Form, Question3Form
+from .forms import ContactForm, GetCompanyForm, NewUserForm, Question1Form, Question2Form, Question3Form, AddSurveyForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from .models import Survey, SurveyResponse
-from django.contrib.auth import authenticate, login as login_user, logout as logout_user
+from django.contrib.auth import authenticate, login as login_user, logout as logout_user, get_user_model
 import logging
 from django.core.mail import send_mail, EmailMessage
 
@@ -39,7 +40,9 @@ def new_survey_user(request):
                                              username=form.cleaned_data['email'],
                                              password=form.cleaned_data['password1']))
             # Create new survey and send email with links
-            newSurvey = Survey.objects.create(requester=newUser, group_name=form.cleaned_data["team_or_company"])
+            newSurvey = Survey.objects.create(requester=newUser,
+                                              group_name=form.cleaned_data["team_or_company"],
+                                              survey_name=form.cleaned_data['survey_name'])
             newSurvey.send_link(request.get_host())
             send_mail(subject="A new user has signed up! - {} {}".format(newUser.first_name, newUser.last_name),
                       message=render_to_string('main/notify_newuser_email.html',
@@ -57,9 +60,25 @@ def new_survey_user(request):
 def manage_surveys(request):
     if request.user.is_anonymous():
         return redirect(login)
+    elif request.method == 'POST':
+        form = AddSurveyForm(request.POST)
+        if form.is_valid():
+            # Get company/team name
+            surveys = Survey.objects.filter(requester=request.user)
+            if len(surveys) > 1:
+                groupName = surveys[0].group_name
+            else:
+                groupName = ""
+            # Create new survey and send email with links
+            newSurvey = Survey.objects.create(requester=request.user,
+                                              group_name=groupName,
+                                              survey_name=form.cleaned_data['survey_name'])
+            newSurvey.send_link(request.get_host())
+
     surveys = [(survey, len(SurveyResponse.objects.filter(survey_id=survey.pk, submitted=True)))
                for survey in Survey.objects.filter(requester=request.user)]
-    return render(request, 'main/manage_surveys.html', {'surveys': surveys})
+    return render(request, 'main/manage_surveys.html', {'surveys': surveys,
+                                                        'AddSurveyForm': AddSurveyForm()})
 
 
 def get_link(request, pk):
@@ -95,7 +114,10 @@ def open_survey(request, pk):
 
 def login(request):
     if request.user.is_authenticated():
-        return redirect('manage_surveys')
+        if request.user.is_staff:
+            return redirect(view_data)
+        else:
+            return redirect(manage_surveys)
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
 
@@ -166,3 +188,19 @@ def submission_received(request):
 
 def survey_is_closed(request):
     return render(request, 'main/survey_is_closed.html', {})
+
+
+def view_data(request):
+    if request.user.is_authenticated():
+        if request.user.is_staff:
+            surveys = [(survey, len(SurveyResponse.objects.filter(survey_id=survey.pk)))
+                       for survey in Survey.objects.all() if not survey.requester.is_staff]
+            return render(request,
+                          'main/view_data.html',
+                          {'surveys': surveys,
+                           'responses': SurveyResponse.objects.filter(survey__requester__is_staff=False),
+                           'users': User.objects.filter(is_staff=False)})
+        else:
+            return render(request, 'main/not_staff.html', {})
+    else:
+        return redirect(login)

@@ -1,13 +1,16 @@
 {% autoescape off %}
-    Here is your survey link:
-    http://{{ domain }}{% url 'take_survey' survey_pk=survey_pk response_pk='-1' q_num='0' %}
+Thank you for your interest in using The Innovation Company’s I3™ Assessment Tool.
 
-    If you're the survey creator, you can manage your survey here:
-    http://{{ domain }}{% url 'manage_surveys' %}
+Here is your survey link:
+http://{{ domain }}{% url 'take_survey' survey_pk=survey_pk response_pk='-1' q_num='0' %}
 
-    If clicking the links above doesn't work, please copy and paste the URL in a new browser
-    window instead.
+If you're the survey creator or administrator you can view the number of responses or close the survey here:
+http://{{ domain }}{% url 'manage_surveys' %}
 
-    Sincerely,
-    The Innovation Company
+If clicking the links above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+Sincerely,
+The Innovation Company
+Support:  survey@innovationiseasy.com
 {% endautoescape %}

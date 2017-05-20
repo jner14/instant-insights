@@ -8,12 +8,8 @@
 <meta property="og:image" content="http://www.innovationiseasy.com/uploads/6/3/4/0/63404521/7985450.jpg" />
 <meta property="og:url" content="http://survey.innovationiseasy.com" />
 
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
 		<link id="wsite-base-style" rel="stylesheet" type="text/css" href="http://cdn2.editmysite.com/css/sites.css?" />
 {#        <link rel="stylesheet" href="{% static 'insight/insight.css' %}">#}
 <link rel="stylesheet" type="text/css" href="//cdn2.editmysite.com/css/old/fancybox.css?1494541012" />
@@ -71,14 +67,14 @@
 .wsite-background {background-image: url("http://innovationiseasy.com/uploads/6/3/4/0/63404521/background-images/937877342.jpg") !important;background-repeat: no-repeat !important;background-position: 22.57% 0.00% !important;background-size: 150% !important;background-color: transparent !important;}
 body.wsite-background {background-attachment: fixed !important;}.wsite-background.wsite-custom-background{ background-size: 150% !important}
 </style>
-		<script src="{% static 'insight/js/templateArtifacts.js' %}" {# src='static/insight/js/templateArtifacts.js?1494594106' #}></script>
+<script src="{% static 'insight/js/templateArtifacts.js' %}" {# src='static/insight/js/templateArtifacts.js?1494594106' #}></script>
 <script>
 var STATIC_BASE = '//cdn1.editmysite.com/';
 var ASSETS_BASE = '//cdn2.editmysite.com/';
 var STYLE_PREFIX = 'wsite';
 </script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
-
+{% block headers %}{% endblock %}
 <script type="text/javascript" src="//cdn2.editmysite.com/js/lang/en/stl.js?buildTime=1494541012&"></script>
 <script src="//cdn2.editmysite.com/js/site/main.js?buildTime=1494624291"></script><script type="text/javascript">_W.configDomain = "www.weebly.com";</script><script>_W.relinquish && _W.relinquish()</script>
 <script type="text/javascript" src="//cdn2.editmysite.com/js/lang/en/stl.js?buildTime=1494624291&"></script>
@@ -442,11 +438,13 @@ var STYLE_PREFIX = 'wsite';
                         <div>
                             <div id="993247540528627043" align="left" style="padding-left: 15%; padding-right: 15%; width: 70%; overflow-y: hidden;" class="wcustomhtml">
 
-                                <h1><a href="{% url 'new_survey_user' %}">The I3&trade; Assessment</a></h1>
+                                <h1>The I3&trade; Assessment</h1>
                                 {% block content %}
                                 {% endblock %}
 
                             </div>
+                            {% block content2 %}
+                            {% endblock %}
                         </div>
                     </div>
                 </div>
