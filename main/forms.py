@@ -14,7 +14,7 @@ class GetCompanyForm(forms.Form):
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     team_or_company = forms.CharField(max_length=100, required=False)
-    survey_name = forms.CharField(max_length=100, required=False)
+    survey_name = forms.CharField(max_length=100, required=True)
 
     class Meta:
         model = User
@@ -38,7 +38,7 @@ class NewUserForm(UserCreationForm):
 
 
 class AddSurveyForm(forms.Form):
-    survey_name = forms.CharField(max_length=100, required=False)
+    survey_name = forms.CharField(max_length=100, required=True)
 
     class Meta:
         model = Survey

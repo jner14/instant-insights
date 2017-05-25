@@ -143,11 +143,13 @@ class SurveyReportMaker():
         layout = None
         annotations = None
         if len(data) > 1:
+            manCount = float(sum(data[0].y))
+            assCount = float(sum(data[1].y))
             ann = [j for i in zip([
                                       dict(
                                           x=xi,
                                           y=yi,
-                                          text="{0:.0f}".format(100 * float(yi) / float(sum(data[0].y))) + "%",
+                                          text="0%" if manCount == 0 else "{0:.0f}".format(100 * float(yi) / manCount) + "%",
                                           xanchor='right',
                                           yanchor='bottom',
                                           showarrow=False,
@@ -155,7 +157,7 @@ class SurveyReportMaker():
                                   [dict(
                                       x=xi,
                                       y=yi,
-                                      text="{0:.0f}".format(100 * float(yi) / float(sum(data[1].y))) + "%",
+                                      text="0%" if assCount == 0 else "{0:.0f}".format(100 * float(yi) / assCount) + "%",
                                       xanchor='left',
                                       yanchor='bottom',
                                       showarrow=False,

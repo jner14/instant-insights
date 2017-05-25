@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^submission_received$', views.submission_received, name='submission_received'),
     url(r'^survey_is_closed$', views.survey_is_closed, name='survey_is_closed'),
     url(r'^report_sent$', views.report_sent, name='report_sent'),
+    url(r'^report_not_sent$', views.report_not_sent, name='report_not_sent'),
     # url(r'^$', TemplateView.as_view(template_name='insight/home.html')),
 ]

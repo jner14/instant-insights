@@ -1,16 +1,40 @@
-{% autoescape off %}
-Thank you for your interest in using The Innovation Company’s I3™ Assessment Tool.
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title></title>
+        <style></style>
+    </head>
+    <body>
+<p>Thank you for your interest in using The Innovation Company’s I3™ Assessment Tool. Feel free to edit the content of
+this email and forward to the individuals you would like to participate in this survey process.</p>
 
-Here is your survey link:
-http://{{ domain }}{% url 'take_survey' survey_pk=survey_pk response_pk='-1' q_num='0' %}
+<p>Sincerely,<br/>
+The Innovation Company <br>
+Support:  survey@innovationiseasy.com</p>
 
-If you're the survey creator or administrator you can view the number of responses or close the survey here:
-http://{{ domain }}{% url 'manage_surveys' %}
+<p>--------</p>
+<p>Hi <span style="color: red">[group name]</span>:</p>
 
-If clicking the links above doesn't work, please copy and paste the URL in a new browser
-window instead.
+<p>The Innovation Company (www.innovationisEASY.com), a consulting firm in the Boston, Massachusetts area, has created a
+new assessment tool to measure the level of psychological safety within a team or company.</p>
 
-Sincerely,
-The Innovation Company
-Support:  survey@innovationiseasy.com
-{% endautoescape %}
+<p>Psychological safety is a term developed by researchers at Harvard Business School that describes a shared belief
+that the team is safe for interpersonal risk taking.  In psychologically safe teams, team members feel accepted and
+respected.  The research shows that teams that view their environment or culture to be safe perform at higher
+levels, have better morale, and are willing to share and try more innovative ideas than teams who are in a less
+safe environment.</p>
+
+<p>The survey only takes about 1 minute to complete.   Could you please take a moment right now and click on the link below
+to complete the survey?   We need everyone to complete this by <span style="color: red">[date]</span> so taking a moment
+now will ensure this is done and off your plate.
+http://{{ domain }}{% url 'take_survey' survey_pk=survey_pk response_pk='-1' q_num='0' %}</p>
+
+<p>If clicking the links above doesn't work, please copy and paste the URL in a new browser
+window instead.</p>
+
+<p><strong>Everything is 100% confidential unless you choose to input any personal information. </strong></p>
+
+<p>Thank you so much for your help.</p>
+    </body>
+</html>

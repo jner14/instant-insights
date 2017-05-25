@@ -1,13 +1,15 @@
+# coding=utf-8
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 
 from .forms import ContactForm, GetCompanyForm, NewUserForm, Question1Form, Question2Form, Question3Form, AddSurveyForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
-from .models import Survey, SurveyResponse
+from .models import Survey, SurveyResponse, MIN_RESPONSES
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user, get_user_model
 import logging
 from django.core.mail import send_mail, EmailMessage
+import threading
 
 
 logger = logging.getLogger(__name__)
@@ -43,7 +45,14 @@ def new_survey_user(request):
             newSurvey = Survey.objects.create(requester=newUser,
                                               group_name=form.cleaned_data["team_or_company"],
                                               survey_name=form.cleaned_data['survey_name'])
+            # Send email to user with link to management console
+            send_mail(subject="Here is Your I3™ Survey Administrator Console Link from The Innovation Company",
+                      message=render_to_string('main/email_manage_body.html', {'domain': request.get_host()}),
+                      from_email='survey@innovationiseasy.com',
+                      recipient_list=[newUser.email])
+            # Send email to user with link to newly created survey
             newSurvey.send_link(request.get_host())
+            # Send email to site administrator notifying of new user
             send_mail(subject="A new user has signed up! - {} {}".format(newUser.first_name, newUser.last_name),
                       message=render_to_string('main/notify_newuser_email.html',
                                                {'email': newUser.email,
@@ -78,7 +87,8 @@ def manage_surveys(request):
     surveys = [(survey, len(SurveyResponse.objects.filter(survey_id=survey.pk, submitted=True)))
                for survey in Survey.objects.filter(requester=request.user)]
     return render(request, 'main/manage_surveys.html', {'surveys': surveys,
-                                                        'AddSurveyForm': AddSurveyForm()})
+                                                        'AddSurveyForm': AddSurveyForm(),
+                                                        'MIN_RESPONSES': MIN_RESPONSES})
 
 
 def get_link(request, pk):
@@ -92,15 +102,28 @@ def get_link(request, pk):
 def close_survey(request, pk):
     if request.user.is_authenticated():
         survey = get_object_or_404(Survey, requester=request.user, pk=pk)
+        # is_sent = False
         if not survey.closed:
+            threading.Thread(target=survey.send_report).start()
+            # survey.send_report()
+            # is_sent = survey.send_report()
             survey.close()
-            survey.send_report()
-        return redirect(report_sent)
+            return redirect(report_sent)
+            # if is_sent:
+            #     return redirect(report_sent)
+            # else:
+            #     return redirect(report_not_sent)
+        else:
+            return redirect(manage_surveys)
     return redirect(login)
 
 
 def report_sent(request):
     return render(request, 'main/report_sent.html', {})
+
+
+def report_not_sent(request):
+    return render(request, 'main/report_not_sent.html', {"MIN_RESPONSES": MIN_RESPONSES})
 
 
 def open_survey(request, pk):

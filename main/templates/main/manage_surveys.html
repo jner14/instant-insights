@@ -11,7 +11,7 @@
     </div>
     <h3>Survey Details</h3>
     <div>
-        <table>
+        <table style="width: 100%">
             <tr>
                 <th>Survey Name</th>
                 <th>Date Created</th>
@@ -38,11 +38,15 @@
         </table>
     </div>
     <div>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="{{ AddSurveyForm.survey_name.id_for_label }}">Survey name:</label>
-        {{ AddSurveyForm.survey_name }}
-        <input type="submit" value="Add New Survey" />
+        <form method="POST" style="border-top:solid #aaaf33 8px; margin-top: .5em; padding-top: 2em;">
+            {% csrf_token %}
+            <h3>Additional Surveys</h3>
+            <p><label>If you would like to create additional surveys for other teams or subgroups please enter a
+                survey name in the box below and click on the Add New Survey button. A link for that survey will be sent
+                to your inbox.  You will be able to manage all of your surveys from one Administrator Console.</label></p>
+            <label for="{{ AddSurveyForm.survey_name.id_for_label }}">Survey name:</label>
+            {{ AddSurveyForm.survey_name }}
+            <input type="submit" value="Add New Survey" />
     </form>
 
     </div>
@@ -55,8 +59,11 @@
                 <li>Check back here to see the number of responses or log in at survey.innovationiseasy.com{% url 'login' %}.</li>
                 <li>
                     When ready, close the survey by clicking the link under Change Status.  A report will
-                    automatically be generated and emailed to you. Please allow 10-15 minutes for your report
-                    to be generated.
+                    automatically be generated and emailed to you.
+                </li>
+                <li>
+                    Please allow 10-15 minutes for your report to be generated. Note that a report requires a minimum
+                    of {{ MIN_RESPONSES }} response{% if MIN_RESPONSES > 1 %}s{% endif %} or it will not be generated.
                 </li>
                 <li>Add additional surveys as needed.</li>
                 <li>Contact us at survey@innovationiseasy.com with any questions.</li>
