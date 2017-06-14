@@ -142,28 +142,36 @@ class SurveyReportMaker():
     def _make_plot(self, data, fname, title=None):
         layout = None
         annotations = None
+        text_angle = -35
+        font_size = 10
         if len(data) > 1:
             manCount = float(sum(data[0].y))
             assCount = float(sum(data[1].y))
             ann = [j for i in zip([
-                                      dict(
-                                          x=xi,
-                                          y=yi,
-                                          text="0%" if manCount == 0 else "{0:.0f}".format(100 * float(yi) / manCount) + "%",
-                                          xanchor='right',
-                                          yanchor='bottom',
-                                          showarrow=False,
-                                      ) for xi, yi in zip(data[0].x, data[0].y)],
-                                  [dict(
-                                      x=xi,
+                                  dict(
+                                      x=xi-.1,
                                       y=yi,
-                                      text="0%" if assCount == 0 else "{0:.0f}".format(100 * float(yi) / assCount) + "%",
-                                      xanchor='left',
+                                      text="0%" if manCount == 0 else "{0:.0f}".format(100 * float(yi) / manCount) + "%",
+                                      xanchor='auto',
                                       yanchor='bottom',
                                       showarrow=False,
-                                  ) for xi, yi in zip(data[1].x, data[1].y)]
+                                      textangle=text_angle,
+                                      font={"size": font_size},
+                                  ) for xi, yi in zip(range(len(data[0].x)), data[0].y)],
+                                  [dict(
+                                      x=xi+.3,
+                                      y=yi,
+                                      text="0%" if assCount == 0 else "{0:.0f}".format(100 * float(yi) / assCount) + "%",
+                                      xanchor='auto',
+                                      yanchor='bottom',
+                                      showarrow=False,
+                                      textangle=text_angle,
+                                      font={"size": font_size},
+                                  ) for xi, yi in zip(range(len(data[1].x)), data[1].y)]
                                   ) for j in i]
             layout = gobj.Layout(barmode='group',
+                                 bargap=0.15,
+                                 bargroupgap=0.2,
                                  title=title,
                                  legend=dict(orientation="h"),
                                  margin=gobj.Margin(l=50, r=50, b=10, t=10, pad=2),
@@ -185,12 +193,14 @@ class SurveyReportMaker():
                     x=xi,
                     y=yi,
                     text=str(yi),
-                    xanchor='right',
+                    xanchor='center',
                     yanchor='bottom',
                     showarrow=False,
+                    font={"size": font_size},
                 ) for xi, yi in zip(data[0].x, data[0].y)
                 ]
             layout = gobj.Layout(title=title,
+                                 bargap=0.30,
                                  annotations=ann,
                                  legend=dict(orientation="h"),
                                  margin=gobj.Margin(l=50, r=50, b=25, t=25, pad=2),
@@ -230,21 +240,21 @@ class SurveyReportMaker():
                 marker=dict(color='rgb(165, 209, 121)'),
                 x=keys,
                 y=[overall[typ][k] for k in keys],
-                width=.5
+                # width=.5
             )]
             man_data = gobj.Bar(
                 marker=dict(color='rgb(103, 149, 235)'),
                 x=keys,
                 y=[self.survey_data['Managers'][typ][k] for k in keys],
                 name="Managers",
-                width=.5
+                # width=.5
             )
             assoc_data = gobj.Bar(
                 marker=dict(color='rgb(198, 105, 105)'),
                 x=keys,
                 y=[self.survey_data['Associates'][typ][k] for k in keys],
                 name="Associates",
-                width=.5
+                # width=.5
             )
             self._make_plot(overall_data, "overall_" + typ.lower())
             self._make_plot([man_data, assoc_data], "grouped_" + typ.lower())
@@ -376,7 +386,11 @@ class SurveyReportMaker():
     *Responses were entered into The Innovation Company's proprietary I3 scoring algorithm and your result is based on a
     HOT - WARM - COLD scale where HOT is best.
 </p>
-<p><strong>Next steps:</strong> Please contact us at 978-266-0012 or <a href="mailto:info@innovationisEASY.com">info@innovationisEASY.com</a> to schedule a time discuss these results and explore specific action items via 1 hour of FREE consultation.  If you would like to start some work on your own please checkout our FREE apps, games, and Innovation DIY process at <a href="http://www.innovationiseasy.com/diy.html">http://www.innovationiseasy.com/diy.html</a></p>
+<p>
+    <strong>Next steps:</strong> Please contact us at 978-266-0012 or <a href="mailto:info@innovationisEASY.com">info@innovationisEASY.com</a>
+    to schedule a time discuss these results and explore specific action items via a free 15 minute consultation.  If you
+    would like to start some work on your own please checkout our apps, games, and Innovation DIY process at
+    <a href="http://www.innovationiseasy.com/diy.html">http://www.innovationiseasy.com/diy.html</a></p>
 <footer>
     <div style="text-align: center;">
         <h3>Thank you for using our I3&trade; Assessment Tool</h3>

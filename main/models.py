@@ -73,10 +73,10 @@ class Survey(models.Model):
                                            to=(self.requester.email,))
                     message.attach(reportName, pdf, 'application/pdf')
                     message.send()
-                    # Send email to survey@innovationiseasy.com notifying of report generation, including a copy
+                    # Send email to survey@survey.innovationiseasy.com notifying of report generation, including a copy
                     message.subject = 'A report has been emailed to {} {}'.format(self.requester.first_name, self.requester.last_name)
-                    message.to = ['survey@innovationiseasy.com']
-                    message.from_email = 'no_reply@innovationiseasy.com'
+                    message.to = ['survey@survey.innovationiseasy.com']
+                    message.from_email = 'noreply@survey.innovationiseasy.com'
                     message.send()
                     result = True
                     break
@@ -85,8 +85,8 @@ class Survey(models.Model):
                     if i >= MAX_REPORT_ATTEMPTS - 1:
                         send_mail(subject="FAILED TO CREATE REPORT %s TIMES" % MAX_REPORT_ATTEMPTS,
                                   message="There was an issue trying to create a report:\n\n%s" % e,
-                                  from_email='survey@innovationiseasy.com',
-                                  recipient_list=["survey@innovationiseasy.com"])
+                                  from_email='noreply@survey.innovationiseasy.com',
+                                  recipient_list=["survey@survey.innovationiseasy.com"])
                     else:
                         sleep((i + 1) * 120)
         return result

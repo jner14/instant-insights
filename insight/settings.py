@@ -32,7 +32,7 @@ EMAIL_HOST = conf.EMAIL_HOST
 EMAIL_HOST_USER = conf.EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = conf.EMAIL_HOST_PASSWORD
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'survey@innovationiseasy.com'
+DEFAULT_FROM_EMAIL = 'noreply@survey.innovationiseasy.com'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
 # Application definition

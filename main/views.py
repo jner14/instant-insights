@@ -48,7 +48,7 @@ def new_survey_user(request):
             # Send email to user with link to management console
             send_mail(subject="Here is Your I3™ Survey Administrator Console Link from The Innovation Company",
                       message=render_to_string('main/email_manage_body.html', {'domain': request.get_host()}),
-                      from_email='survey@innovationiseasy.com',
+                      from_email='noreply@survey.innovationiseasy.com',
                       recipient_list=[newUser.email])
             # Send email to user with link to newly created survey
             newSurvey.send_link(request.get_host())
@@ -58,8 +58,8 @@ def new_survey_user(request):
                                                {'email': newUser.email,
                                                 'name': newUser.first_name + " " + newUser.last_name,
                                                 'team': newSurvey.group_name}),
-                      from_email='survey@innovationiseasy.com',
-                      recipient_list=['survey@innovationiseasy.com'])
+                      from_email='noreply@survey.innovationiseasy.com',
+                      recipient_list=['survey@survey.innovationiseasy.com'])
             return redirect(manage_surveys)
     else:
         form = NewUserForm()
